@@ -1,0 +1,25 @@
+name: Generate podcast feed
+on: [push]
+jobs: 
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Setup Phython
+        uses: actions/setup-phyton@v4
+        with:
+          python-version: '3.10'
+      - name: install dep
+        run: |
+          phyton -m pip install --upgrade pip
+          pip install pyyaml
+      - name: Run Feed Generator
+        run: python feed.py
+      - name: Push Repo
+        run: |
+          git config user.name tiberiu-deliceanu
+          git config user.email tiberiu.deliceanu@yahoo.com
+          git add .
+          git commit -m "push to main"
+          git push
